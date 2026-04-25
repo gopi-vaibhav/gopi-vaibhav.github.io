@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Happy Birthday Gopi 🌸</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Great+Vibes&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+  <title>Happy Birthday Gopi ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e8799a' stroke='%23e8799a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z'/></svg>">
@@ -31,7 +31,7 @@ html, body {
   height: 100%; width: 100%;
   overflow: hidden;
   background: var(--bg);
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   color: var(--text);
   -webkit-font-smoothing: antialiased;
 }
@@ -39,12 +39,8 @@ html, body {
 /* ── BACKGROUND ── */
 .mesh-bg {
   position: fixed; inset: 0; z-index: 0;
-  background: 
-    radial-gradient(circle at 10% 20%, rgba(232,121,154,0.15) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(155,89,182,0.15) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(195,155,211,0.1) 0%, transparent 60%),
-    #fdf0f5;
-  animation: bgShift 15s ease-in-out infinite alternate;
+  background: url('bg1.png') no-repeat center;
+  background-size: cover;
 }
 @keyframes bgShift {
   0% { transform: scale(1); }
@@ -59,20 +55,22 @@ html, body {
   position: fixed; inset: 0; z-index: 10;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
-  padding: 16px;
+  padding: 8px 16px;
   opacity: 0; pointer-events: none;
-  transition: opacity 0.8s cubic-bezier(.4,0,.2,1);
+  transform: translateY(100vh);
+  transition: all 0.8s cubic-bezier(.4,0,.2,1);
   overflow: hidden;
 }
-.slide.active { opacity:1; pointer-events:all; }
+.slide.active { opacity:1; pointer-events:all; transform: translateY(0); }
+.slide.past { transform: translateY(-100vh); opacity: 0; }
 
 /* scrollable inner wrapper so content never clips */
 .slide-inner {
   width: 100%; max-width: 540px;
   display: flex; flex-direction: column;
   align-items: center;
-  padding: 8px 0 30px; /* reduced pad */
-  transform: translateY(20px) scale(0.95);
+  padding: 0;
+  transform: translateY(0) scale(1);
   transition: all 0.8s cubic-bezier(.34,1.56,.64,1);
 }
 .slide.active .slide-inner { transform: translateY(0) scale(1); }
@@ -88,66 +86,71 @@ html, body {
 }
 
 .lock-icon-ring {
-  width: clamp(70px,18vw,90px);
-  height: clamp(70px,18vw,90px);
+  width: clamp(50px,12vw,70px);
+  height: clamp(50px,12vw,70px);
   border-radius: 50%;
   background: linear-gradient(135deg, var(--lilac), var(--soft));
   border: 2px solid rgba(155,89,182,0.25);
   display: flex; align-items: center; justify-content: center;
-  font-size: clamp(1.8rem,5vw,2.4rem);
-  box-shadow: 0 8px 32px var(--glow-pur);
-  margin-bottom: 0.8rem;
+  font-size: clamp(1.2rem,3vw,1.6rem);
+  box-shadow: 0 4px 20px var(--glow-pur);
+  margin-bottom: 0.3rem;
   animation: breathe 3s ease infinite;
   flex-shrink: 0;
 }
 
 .lock-title {
-  font-family: 'Great Vibes', cursive;
-  font-size: clamp(2.2rem, 9vw, 3.8rem);
+  font-size: clamp(1.5rem, 7vw, 2.4rem);
   color: var(--rose);
-  margin-bottom: 0.2rem;
+  margin-bottom: 0;
   text-shadow: 0 2px 12px var(--glow-pink);
   text-align: center;
 }
 
 .lock-hint {
-  font-size: clamp(0.6rem, 2.2vw, 0.72rem);
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 1rem; text-align: center;
+  font-size: clamp(0.55rem, 2vw, 0.65rem);
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.5rem; text-align: center;
 }
 
-.pin-row { display:flex; gap:10px; margin-bottom:1.2rem; }
+.pin-row { display:flex; gap:6px; margin-bottom: 0; }
 
 .pin-dot {
-  width: clamp(12px,3.5vw,16px);
-  height: clamp(12px,3.5vw,16px);
-  border-radius: 50%;
-  border: 2px solid var(--lavender); background: transparent;
+  width: clamp(16px, 4vw, 20px);
+  height: clamp(16px, 4vw, 20px);
+  background-color: var(--lavender);
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  opacity: 0.3;
   transition: all 0.3s cubic-bezier(.34,1.56,.64,1);
 }
+
 .pin-dot.filled {
-  background: linear-gradient(135deg, var(--pink), var(--purple));
-  border-color: transparent; transform: scale(1.25);
-  box-shadow: 0 0 10px var(--glow-pink);
+  background: linear-gradient(135deg, var(--pink), var(--rose));
+  opacity: 1;
+  transform: scale(1.3);
+  box-shadow: 0 0 15px var(--glow-pink);
 }
 
 .keypad {
   display: grid;
-  grid-template-columns: repeat(3, clamp(62px, 20vw, 76px));
-  gap: clamp(8px, 2vw, 10px);
+  grid-template-columns: repeat(3, clamp(52px, 16vw, 65px));
+  gap: 6px;
 }
 
 .key {
-  width: clamp(62px, 20vw, 76px);
-  height: clamp(62px, 20vw, 76px);
-  border-radius: clamp(14px, 4vw, 20px);
+  width: clamp(52px, 16vw, 65px);
+  height: clamp(52px, 16vw, 65px);
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(195,155,211,0.3);
   color: var(--text);
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.3rem, 5vw, 1.7rem); font-weight: 400;
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.1rem, 4vw, 1.4rem); font-weight: 400;
   cursor: pointer;
   transition: all 0.18s ease;
   box-shadow: 0 4px 14px rgba(155,89,182,0.08);
@@ -164,9 +167,10 @@ html, body {
 .key.check:active { opacity: 0.85; }
 
 .error-msg {
-  font-family: 'Cormorant Garamond', serif; font-style: italic;
-  color: var(--rose); font-size: clamp(0.9rem,3vw,1rem);
-  margin-top: 0.5rem; opacity: 0; transition: opacity 0.3s; text-align: center;
+  font-style: italic;
+  color: var(--rose); font-size: clamp(0.75rem, 2.2vw, 0.85rem);
+  height: 1.1rem;
+  margin-bottom: 0.1rem; opacity: 0; transition: opacity 0.3s; text-align: center;
 }
 .error-msg.show { opacity:1; }
 .shake { animation: shake 0.5s ease; }
@@ -182,9 +186,9 @@ html, body {
 
 .photo-ring {
   position: relative;
-  width: clamp(140px, 40vw, 190px);
-  height: clamp(140px, 40vw, 190px);
-  margin-bottom: 1.4rem; flex-shrink: 0;
+  width: clamp(120px, 35vw, 160px);
+  height: clamp(120px, 35vw, 160px);
+  margin-bottom: 1rem; flex-shrink: 0;
 }
 .photo-ring::before {
   content: '';
@@ -211,14 +215,14 @@ html, body {
   color: var(--muted); margin-bottom: 0.4rem;
 }
 .bday-main {
-  font-family: 'Great Vibes', cursive;
-  font-size: clamp(2.8rem, 11vw, 5.5rem);
+
+  font-size: clamp(2.4rem, 10vw, 4.5rem);
   color: var(--rose); line-height: 1;
   text-shadow: 0 4px 20px var(--glow-pink);
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.1rem;
 }
 .bday-name {
-  font-family: 'Cormorant Garamond', serif;
+
   font-size: clamp(1.8rem, 7vw, 3.5rem);
   font-weight: 300; color: var(--purple);
   letter-spacing: 0.08em; margin-bottom: 0.6rem;
@@ -257,18 +261,18 @@ html, body {
 }
 
 .letter-date {
-  font-size: clamp(0.6rem, 2vw, 0.7rem); letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 1.2rem;
+  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.8rem;
   display: flex; align-items: center; gap: 0.5rem;
 }
 .letter-date::after { content:''; flex:1; height:1px; background: var(--lilac); }
 
 .letter-greeting {
-  font-family: 'Great Vibes', cursive;
+
   font-size: clamp(1.6rem, 6vw, 2.2rem); color: var(--rose); margin-bottom: 1rem;
 }
 .letter-body {
-  font-family: 'Cormorant Garamond', serif;
+
   font-size: clamp(1rem, 3.5vw, 1.12rem); line-height: 1.9;
   color: var(--text); font-weight: 300;
 }
@@ -276,9 +280,8 @@ html, body {
 .letter-body em { color: var(--rose); font-style: italic; }
 
 .letter-sign {
-  font-family: 'Great Vibes', cursive;
-  font-size: clamp(1.4rem, 5vw, 1.9rem); color: var(--purple);
-  margin-top: 1.2rem; text-align: right;
+  font-size: clamp(1.2rem, 4vw, 1.6rem); color: var(--purple);
+  margin-top: 0.8rem; text-align: right;
 }
 
 .seal {
@@ -310,12 +313,12 @@ html, body {
 }
 
 .mem-title {
-  font-family: 'Cormorant Garamond', serif;
+
   font-size: clamp(1.3rem, 5vw, 2.2rem); font-weight: 400;
   color: var(--text); margin-bottom: 0.25rem;
 }
 .mem-sub {
-  font-family: 'Cormorant Garamond', serif;
+
   font-style: italic; font-size: clamp(0.9rem, 3vw, 1.05rem);
   color: var(--muted); margin-bottom: 1.1rem;
 }
@@ -374,13 +377,13 @@ html, body {
 }
 
 .final-ring {
-  width: clamp(90px, 25vw, 120px);
-  height: clamp(90px, 25vw, 120px);
+  width: clamp(70px, 20vw, 100px);
+  height: clamp(70px, 20vw, 100px);
   border-radius: 50%;
   background: linear-gradient(135deg, rgba(232,121,154,0.15), rgba(195,155,211,0.2));
   border: 2px solid rgba(195,155,211,0.4);
   display: flex; align-items: center; justify-content: center;
-  font-size: clamp(2rem, 7vw, 3rem); margin-bottom: 1.2rem;
+  font-size: clamp(1.8rem, 6vw, 2.5rem); margin-bottom: 0.8rem;
   animation: breathe 3s ease infinite;
   box-shadow: 0 8px 40px var(--glow-pink);
   flex-shrink: 0;
@@ -392,25 +395,23 @@ html, body {
   color: var(--muted); margin-bottom: 0.4rem;
 }
 .final-title {
-  font-family: 'Great Vibes', cursive;
-  font-size: clamp(3rem, 12vw, 6rem);
+  font-size: clamp(2.5rem, 10vw, 5rem);
   color: var(--rose);
   text-shadow: 0 4px 24px var(--glow-pink);
-  line-height: 1; margin-bottom: 0.2rem;
+  line-height: 1; margin-bottom: 0.1rem;
 }
 .final-name {
-  font-family: 'Cormorant Garamond', serif;
+
   font-size: clamp(1.6rem, 5.5vw, 3rem); font-weight: 300;
   color: var(--purple); letter-spacing: 0.1em; margin-bottom: 0.9rem;
 }
 .final-msg {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.95rem, 3.2vw, 1.1rem); font-style: italic;
-  color: var(--muted); max-width: 360px; line-height: 1.8;
-  margin-bottom: 1.5rem; padding: 0 8px;
+  font-size: clamp(0.9rem, 3vw, 1.05rem); font-style: italic;
+  color: var(--muted); max-width: 320px; line-height: 1.6;
+  margin-bottom: 1rem; padding: 0 8px;
 }
 .final-from {
-  font-family: 'Great Vibes', cursive;
+
   font-size: clamp(1.5rem, 5.5vw, 2rem); color: var(--purple);
   margin-bottom: 1.5rem;
 }
@@ -561,7 +562,7 @@ html, body {
    SAFE AREA (notch phones)
 ════════════════════════════════ */
 @supports (padding-top: env(safe-area-inset-top)) {
-  .slide { padding-top: max(16px, env(safe-area-inset-top)); padding-bottom: max(16px, env(safe-area-inset-bottom)); }
+  .slide { padding-top: max(4px, env(safe-area-inset-top)); padding-bottom: max(8px, env(safe-area-inset-bottom)); }
   #music-toast { top: max(14px, env(safe-area-inset-top)); }
   #replay-btn  { top: max(14px, env(safe-area-inset-top)); }
 }
@@ -604,6 +605,75 @@ html, body {
   .final-ring { width:80px; height:80px; margin-bottom:0.8rem; }
   .final-msg { margin-bottom:1rem; }
 }
+
+/* ── WAIT SLIDE ── */
+.wait-wrap {
+  text-align: center; display: flex; flex-direction: column; align-items: center;
+}
+.wait-icon {
+  font-size: 3rem; margin-bottom: 1rem;
+  animation: pulseWait 2s ease-in-out infinite;
+}
+@keyframes pulseWait {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+.wait-msg {
+  font-size: clamp(1rem, 4vw, 1.2rem); color: var(--rose);
+  max-width: 300px; line-height: 1.6; margin-bottom: 1.5rem;
+}
+
+/* ── SLIDE 1 BACKGROUND ── */
+
+
+#slide-1 .slide-inner {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-radius: 24px;
+  padding: 1.5rem 1rem;
+}
+
+/* ── COUNTDOWN ── */
+.countdown-container {
+  display: flex; gap: 6px; margin: 0.3rem 0 0.8rem;
+  animation: riseIn 1.1s ease forwards;
+}
+.cd-unit {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 4px 6px; border-radius: 8px;
+  display: flex; flex-direction: column; align-items: center;
+  min-width: clamp(40px, 12vw, 50px);
+  box-shadow: 0 4px 12px var(--shadow);
+}
+.cd-num {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: clamp(0.9rem, 3vw, 1.1rem); color: var(--rose);
+}
+.cd-label {
+  font-size: clamp(0.4rem, 1vw, 0.5rem); text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--muted);
+}
+
+/* ── COLLAGE ── */
+.collage-wrap { width: 100%; display: flex; flex-direction: column; align-items: center; }
+.collage-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 10px; margin: 0.8rem 0 1.2rem; width: 100%; max-width: 360px;
+}
+.collage-item {
+  transform: rotate(var(--rot)) translateX(var(--x));
+  transition: transform 0.3s ease;
+}
+.collage-item:hover { transform: scale(1.05) rotate(0deg); z-index: 5; }
+.collage-item .film-frame { margin-bottom: 0; padding-bottom: 24px; }
+.collage-item .film-img, .collage-item .film-placeholder {
+  width: 100%; height: clamp(80px, 22vw, 110px);
+}
 </style>
 </head>
 <body>
@@ -621,9 +691,28 @@ html, body {
 <div class="slide active" id="slide-1">
   <div class="slide-inner">
     <div class="lock-wrap" id="lock-box">
-      <div class="lock-icon-ring"><i data-lucide="flower-2"></i></div>
+      <div class="lock-icon-ring"><i data-lucide="heart"></i></div>
       <h1 class="lock-title">For My Love</h1>
       <p class="lock-hint">Enter your secret number to begin</p>
+      <p class="error-msg" id="err-msg">Hmm, that's not it… try again 💕</p>
+      <div class="countdown-container" id="countdown">
+        <div class="cd-unit">
+          <span class="cd-num" id="days">00</span>
+          <span class="cd-label">Days</span>
+        </div>
+        <div class="cd-unit">
+          <span class="cd-num" id="hours">00</span>
+          <span class="cd-label">Hours</span>
+        </div>
+        <div class="cd-unit">
+          <span class="cd-num" id="mins">00</span>
+          <span class="cd-label">Mins</span>
+        </div>
+        <div class="cd-unit">
+          <span class="cd-num" id="secs">00</span>
+          <span class="cd-label">Secs</span>
+        </div>
+      </div>
       <div class="pin-row">
         <div class="pin-dot" id="d0"></div>
         <div class="pin-dot" id="d1"></div>
@@ -644,7 +733,22 @@ html, body {
         <button class="key" onclick="pk('0')">0</button>
         <button class="key check" onclick="pk('go')"><i data-lucide="check"></i></button>
       </div>
-      <p class="error-msg" id="err-msg">Hmm, that's not it… try again 💕</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SLIDE WAIT — PATIENCE ════ -->
+<div class="slide" id="slide-wait">
+  <div class="slide-inner">
+    <div class="wait-wrap">
+      <div class="wait-icon">⏳❤️</div>
+      <h1 class="bday-main" style="font-size: clamp(2rem, 8vw, 3rem); margin-bottom: 1rem;">Wait, wait...</h1>
+      <p class="wait-msg">
+        Patience, my love! ❤️<br>
+        Something magical is coming, but it's not quite time yet.
+      </p>
+      <p class="bday-sub" style="margin-bottom: 1.5rem;">See you on June 21st! ✨</p>
+      <button class="btn btn-ghost" onclick="goToSlide(0)"><i data-lucide="rotate-ccw"></i> Back to countdown</button>
     </div>
   </div>
 </div>
@@ -661,7 +765,7 @@ html, body {
       </div>
       <p class="bday-label">Today is extra special ✦</p>
       <h1 class="bday-main">Happy Birthday</h1>
-      <h2 class="bday-name">Gopi <i data-lucide="sparkles" style="color:var(--pink); font-size:0.8em;"></i></h2>
+      <h2 class="bday-name">Gopi <i data-lucide="flower-2" style="color:var(--pink); font-size:0.8em;"></i></h2>
       <p class="bday-sub">My heart &nbsp;✦&nbsp; My home &nbsp;✦&nbsp; My everything</p>
       <button class="btn" onclick="go(2)">Open your surprise <i data-lucide="arrow-right"></i></button>
     </div>
@@ -685,7 +789,45 @@ html, body {
         <p class="letter-sign">Tumhara, hamesha 💜<br><em style="font-size:1.2rem">— [Your Name]</em></p>
       </div>
       <div class="seal"><i data-lucide="heart"></i></div>
-      <button class="btn" onclick="go(3)">Our Memories <i data-lucide="arrow-right"></i></button>
+      <button class="btn" onclick="go(3)">Our Photo Dump <i data-lucide="camera"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 4 — PHOTO DUMP ════ -->
+<div class="slide scrollable" id="slide-4">
+  <div class="slide-inner">
+    <div class="collage-wrap">
+      <div class="era-badge">✦ Our Moments ✦</div>
+      <h2 class="mem-title">Photo Dump</h2>
+      <p class="mem-sub">Every picture tells a story of us</p>
+      <div class="collage-grid">
+        <div class="collage-item" style="--rot: -4deg; --x: -10px;">
+          <div class="film-frame">
+            <div class="film-placeholder"><i data-lucide="camera" class="ico"></i></div>
+            <div class="film-caption">Sweetness</div>
+          </div>
+        </div>
+        <div class="collage-item" style="--rot: 3deg; --x: 15px;">
+          <div class="film-frame">
+            <div class="film-placeholder"><i data-lucide="image" class="ico"></i></div>
+            <div class="film-caption">Laughter</div>
+          </div>
+        </div>
+        <div class="collage-item" style="--rot: -2deg; --x: 5px;">
+          <div class="film-frame">
+            <div class="film-placeholder"><i data-lucide="heart" class="ico"></i></div>
+            <div class="film-caption">Forever</div>
+          </div>
+        </div>
+        <div class="collage-item" style="--rot: 5deg; --x: -5px;">
+          <div class="film-frame">
+            <div class="film-placeholder"><i data-lucide="sparkles" class="ico"></i></div>
+            <div class="film-caption">Magic</div>
+          </div>
+        </div>
+      </div>
+      <button class="btn" onclick="go(4)">Our Memories <i data-lucide="arrow-right"></i></button>
     </div>
   </div>
 </div>
@@ -717,6 +859,7 @@ html, body {
 
 <script>
 const PASSWORD = "2106";
+const MASTER_PASSWORD = "9411";
 
 const songs = [
   { id:"JhS-eFKG0oA", title:"Tum Hi Ho" },
@@ -746,7 +889,7 @@ let pin="", currentSlide=0, totalSlides=0, ytPlayer=null, ytReady=false;
 function buildMemories() {
   const c = document.getElementById("mem-container");
   memories.forEach((m, i) => {
-    const sn = 3 + i + 1;
+    const sn = 4 + i + 1;
     const isLast = i === memories.length - 1;
     const d = document.createElement("div");
     d.className = "slide scrollable"; d.id = `slide-${sn}`;
@@ -785,21 +928,57 @@ function init() {
   updateUI();
   initSparkles();
   if (typeof lucide !== 'undefined') lucide.createIcons();
+  initCountdown();
+}
+
+/* ── COUNTDOWN LOGIC ── */
+function initCountdown() {
+  const targetDate = new Date("June 21, 2026 00:00:00").getTime();
+  const countdownEl = document.getElementById("countdown");
+  
+  function update() {
+    const now = new Date().getTime();
+    const diff = targetDate - now;
+    
+    if (diff < 0) {
+      if (countdownEl) countdownEl.style.display = "none";
+      return;
+    }
+    
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const s = Math.floor((diff % (1000 * 60)) / 1000);
+    
+    document.getElementById("days").innerText = d.toString().padStart(2, '0');
+    document.getElementById("hours").innerText = h.toString().padStart(2, '0');
+    document.getElementById("mins").innerText = m.toString().padStart(2, '0');
+    document.getElementById("secs").innerText = s.toString().padStart(2, '0');
+  }
+  
+  setInterval(update, 1000);
+  update();
 }
 
 /* ── NAVIGATION ── */
 function go(fromSlide) {
   const all = document.querySelectorAll(".slide");
-  all.forEach(s => s.classList.remove("active"));
+  all.forEach((s, i) => {
+    s.classList.remove("active", "past");
+    if (i < fromSlide + 1) s.classList.add("past");
+  });
   const next = fromSlide + 1;
   if (next < totalSlides) {
+    all[next].classList.remove("past");
     all[next].classList.add("active");
     currentSlide = next;
   } else {
-    document.getElementById("slide-final").classList.add("active");
+    const final = document.getElementById("slide-final");
+    final.classList.remove("past");
+    final.classList.add("active");
     currentSlide = totalSlides - 1;
-    launchHearts();
   }
+  launchHearts();
   updateUI();
   playMusic(currentSlide);
   if (currentSlide === 1) launchConfetti();
@@ -814,10 +993,17 @@ function go(fromSlide) {
 }
 
 function goToSlide(idx) {
-  document.querySelectorAll(".slide").forEach(s => s.classList.remove("active"));
   const all = document.querySelectorAll(".slide");
-  if (all[idx]) { all[idx].classList.add("active"); currentSlide = idx; }
-  updateUI(); playMusic(currentSlide);
+  all.forEach((s, i) => {
+    s.classList.remove("active", "past");
+    if (i < idx) s.classList.add("past");
+  });
+  if (all[idx]) { 
+    all[idx].classList.add("active"); 
+    currentSlide = idx; 
+  }
+  updateUI(); 
+  playMusic(currentSlide);
 }
 
 function replayAll() {
@@ -849,9 +1035,18 @@ function updatePinDisplay() {
 }
 
 function checkPin() {
-  if (pin === PASSWORD) {
+  if (pin === MASTER_PASSWORD) {
     document.getElementById("err-msg").classList.remove("show");
-    go(0);
+    go(1); // Master bypass: Proceed to birthday slide
+  } else if (pin === PASSWORD) {
+    document.getElementById("err-msg").classList.remove("show");
+    const targetDate = new Date("June 21, 2026 00:00:00").getTime();
+    const now = new Date().getTime();
+    if (now < targetDate) {
+      goToSlide(1); // Go to wait slide (index 1)
+    } else {
+      go(1); // Proceed to birthday slide
+    }
   } else {
     const b = document.getElementById("lock-box");
     b.classList.add("shake");
