@@ -691,7 +691,7 @@ html, body {
 <div class="slide active" id="slide-1">
   <div class="slide-inner">
     <div class="lock-wrap" id="lock-box">
-      <div class="lock-icon-ring"><i data-lucide="heart"></i></div>
+      <div class="lock-icon-ring"><img src="1.JPG" style="width:100%; height:100%; border-radius:50%; object-fit:cover;" alt="Gopi"></div>
       <h1 class="lock-title">For My Love</h1>
       <p class="lock-hint">Enter your secret number to begin</p>
       <p class="error-msg" id="err-msg">Hmm, that's not it… try again 💕</p>
@@ -759,8 +759,7 @@ html, body {
     <div class="bday-wrap">
       <div class="photo-ring">
         <div class="photo-inner">
-          <!-- Replace with: <img src="gopi.jpg" alt="Gopi"> -->
-          📸
+          <img src="1-1.jpg" style="width:100%; height:100%; object-fit:cover;" alt="Gopi">
         </div>
       </div>
       <p class="bday-label">Today is extra special ✦</p>
@@ -786,7 +785,7 @@ html, body {
           <p>Tumhara birthday sirf ek din nahi — yeh woh din hai jab duniya ko tumhara tohfa mila. Aur mujhe milne ka <em>sabse bada tohfa</em> — tumhara pyaar.</p>
           <p>Tum hamesha chamkti raho, hamesha muskurao, aur hamesha jaano ki mere dil mein sirf <em>tumhara</em> ghar hai. 💜</p>
         </div>
-        <p class="letter-sign">Tumhara, hamesha 💜<br><em style="font-size:1.2rem">— [Your Name]</em></p>
+        <p class="letter-sign">Tumhara, hamesha 💜<br><em style="font-size:1.2rem">— Vaibhu</em></p>
       </div>
       <div class="seal"><i data-lucide="heart"></i></div>
       <button class="btn" onclick="go(3)">Our Photo Dump <i data-lucide="camera"></i></button>
@@ -804,25 +803,25 @@ html, body {
       <div class="collage-grid">
         <div class="collage-item" style="--rot: -4deg; --x: -10px;">
           <div class="film-frame">
-            <div class="film-placeholder"><i data-lucide="camera" class="ico"></i></div>
+            <img src="1.JPG" class="film-img" alt="Sweetness">
             <div class="film-caption">Sweetness</div>
           </div>
         </div>
         <div class="collage-item" style="--rot: 3deg; --x: 15px;">
           <div class="film-frame">
-            <div class="film-placeholder"><i data-lucide="image" class="ico"></i></div>
+            <img src="2.jpg" class="film-img" alt="Laughter">
             <div class="film-caption">Laughter</div>
           </div>
         </div>
         <div class="collage-item" style="--rot: -2deg; --x: 5px;">
           <div class="film-frame">
-            <div class="film-placeholder"><i data-lucide="heart" class="ico"></i></div>
+            <img src="3.JPG" class="film-img" alt="Forever">
             <div class="film-caption">Forever</div>
           </div>
         </div>
         <div class="collage-item" style="--rot: 5deg; --x: -5px;">
           <div class="film-frame">
-            <div class="film-placeholder"><i data-lucide="sparkles" class="ico"></i></div>
+            <img src="4.JPG" class="film-img" alt="Magic">
             <div class="film-caption">Magic</div>
           </div>
         </div>
@@ -847,7 +846,7 @@ html, body {
         You are my favourite thought every morning,<br>
         and my most beautiful dream every night.
       </p>
-      <p class="final-from">With all my love — [Your Name] 💜</p>
+      <p class="final-from">With all my love — Vaibhu 💜</p>
       <div class="btn-row">
         <button class="btn btn-ghost" onclick="replayAll()"><i data-lucide="rotate-ccw"></i> Replay from start</button>
       </div>
@@ -875,12 +874,12 @@ const songs = [
 ];
 
 const memories = [
-  { era:"The Beginning",    title:"When it all started…",          sub:"The day everything changed",              label:"Chapter 1", photo:"" },
-  { era:"Getting Closer",   title:"Every laugh, every glance",     sub:"Learning your favourite everything",      label:"Chapter 2", photo:"" },
-  { era:"Adventures",       title:"Wherever we went — it was home",sub:"Because you are home",                   label:"Chapter 3", photo:"" },
-  { era:"Little Things",    title:"Late nights & quiet mornings",  sub:"The small moments that mean everything",  label:"Chapter 4", photo:"" },
-  { era:"Growing Stronger", title:"Through every season, together",sub:"Every chapter made us more",             label:"Chapter 5", photo:"" },
-  { era:"Right Now",        title:"And here we are… still us",     sub:"Still my favourite story",               label:"Chapter 6", photo:"" },
+  { era:"The Beginning",    title:"When it all started…",          sub:"The day everything changed",              label:"Chapter 1", photo:"4.JPG" },
+  { era:"Getting Closer",   title:"Every laugh, every glance",     sub:"Learning your favourite everything",      label:"Chapter 2", photo:"5.JPG" },
+  { era:"Adventures",       title:"Wherever we went — it was home",sub:"Because you are home",                   label:"Chapter 3", photo:"6.jpg" },
+  { era:"Little Things",    title:"Late nights & quiet mornings",  sub:"The small moments that mean everything",  label:"Chapter 4", photo:"7.jpg" },
+  { era:"Growing Stronger", title:"Through every season, together",sub:"Every chapter made us more",             label:"Chapter 5", photo:"8.JPG" },
+  { era:"Right Now",        title:"And here we are… still us",     sub:"Still my favourite story",               label:"Chapter 6", photo:"9.JPG" },
 ];
 
 let pin="", currentSlide=0, totalSlides=0, ytPlayer=null, ytReady=false;
