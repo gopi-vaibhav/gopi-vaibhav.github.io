@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Happy Birthday Gopi ❤️</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Dancing+Script:wght@400..700&family=Great+Vibes&family=Outfit:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e8799a' stroke='%23e8799a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z'/></svg>">
@@ -74,7 +74,9 @@ html, body {
   transition: all 0.8s cubic-bezier(.34,1.56,.64,1);
 }
 .slide.active .slide-inner { transform: translateY(0) scale(1); }
-.slide.scrollable { overflow-y: auto; }
+.slide.scrollable {
+  overflow-y: auto;
+}
 
 /* ════════════════════════════════
    SLIDE 1 — PASSWORD
@@ -234,54 +236,220 @@ html, body {
 }
 
 /* ════════════════════════════════
-   SLIDE 3 — LOVE LETTER
+   SLIDE 3 — LOVE LETTER & ENVELOPE
 ════════════════════════════════ */
 .letter-outer {
   width: 100%; display: flex; flex-direction: column; align-items: center; gap: 1rem;
 }
-.letter-card {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 20px;
-  width: 100%; max-width: 600px;
-  padding: clamp(1.4rem, 5vw, 2.8rem) clamp(1.2rem, 5vw, 2.8rem);
-  box-shadow:
-    0 24px 60px rgba(155,89,182,0.1),
-    0 6px 20px rgba(232,121,154,0.08);
-  max-height: 55vh; overflow-y: auto;
+
+/* Envelope Wrapper */
+.envelope-wrapper {
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  width: 100%;
+  max-width: 420px;
+  height: 270px;
+  margin: 1.5rem auto;
+  transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  perspective: 1000px;
 }
+
+.envelope-active .envelope-wrapper {
+  height: auto;
+  max-height: 64vh;
+  max-width: 600px;
+  margin: 0.5rem auto;
+}
+
+/* The Envelope Container */
+.envelope {
+  position: absolute;
+  inset: 0;
+  background: #c3b09c; /* pocket back color */
+  border-radius: 8px;
+  box-shadow: 
+    0 4px 10px rgba(0,0,0,0.05),
+    0 15px 35px rgba(74, 32, 64, 0.15);
+  cursor: pointer;
+  z-index: 5;
+  transition: opacity 0.5s ease 0.6s, transform 0.6s ease;
+  transform-style: preserve-3d;
+}
+
+.envelope.open {
+  pointer-events: none;
+  transform: translateY(20px);
+}
+
+.envelope-active .envelope {
+  opacity: 0;
+}
+
+/* Top Flap */
+.envelope-flap {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 135px;
+  background: #e9dac6;
+  clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+  transform-origin: top;
+  transition: transform 0.6s ease-in-out, z-index 0.1s ease-in-out 0.3s;
+  z-index: 7;
+}
+
+.envelope.open .envelope-flap {
+  transform: rotateX(180deg);
+  z-index: 3;
+}
+
+/* Pocket folds */
+.envelope-pocket {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.envelope-pocket::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #deb887;
+  clip-path: polygon(0% 0%, 48% 50%, 0% 100%, 100% 100%, 52% 50%, 100% 0%);
+  opacity: 0.95;
+}
+
+.envelope-pocket::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #d2b48c;
+  clip-path: polygon(0% 100%, 50% 48%, 100% 100%);
+}
+
+/* Wax Seal */
+.wax-seal {
+  position: absolute;
+  top: 135px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 46px;
+  height: 46px;
+  background: radial-gradient(circle, #e21d52 50%, #a61237 100%);
+  border-radius: 50%;
+  box-shadow: 
+    0 4px 8px rgba(0,0,0,0.2),
+    inset 0 1px 2px rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 8;
+  transition: all 0.4s ease;
+  animation: breathe 3s ease infinite;
+}
+
+.wax-seal::after {
+  content: '❤️';
+  font-size: 1.1rem;
+}
+
+.envelope.open .wax-seal {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+@keyframes breathe {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.06); }
+}
+
+/* Letter Card */
+.letter-card {
+  position: absolute;
+  top: 15px; left: 5%; right: 5%;
+  height: 240px;
+  background: #faf4e8;
+  background-image: 
+    linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,0) 95%, rgba(155,89,182,0.08) 95%, rgba(155,89,182,0.08) 100%),
+    radial-gradient(circle at center, transparent 30%, rgba(139,94,60,0.04) 100%);
+  background-size: 100% 32px, 100% 100%;
+  border-radius: 12px;
+  padding: clamp(1.5rem, 5vw, 3rem) clamp(1.2rem, 5vw, 2.5rem);
+  box-shadow:
+    0 4px 6px rgba(0,0,0,0.01),
+    0 15px 35px rgba(74, 32, 64, 0.12),
+    2px 2px 0px #eadecc,
+    4px 4px 0px #f4ebd9;
+  z-index: 4;
+  opacity: 0.5;
+  pointer-events: none;
+  overflow: hidden;
+  transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid #eadecc;
+}
+
+.envelope-active .letter-card {
+  position: relative;
+  top: 0; left: 0; right: 0;
+  width: 100%;
+  height: auto;
+  max-height: 58vh;
+  opacity: 1;
+  z-index: 10;
+  pointer-events: auto;
+  overflow-y: auto;
+}
+
 .letter-card::-webkit-scrollbar { width: 3px; }
-.letter-card::-webkit-scrollbar-thumb { background: var(--lavender); border-radius: 2px; }
-.letter-card::before {
-  content:'✦'; position:absolute; top:1rem; right:1.2rem;
-  color:var(--lavender); font-size:0.75rem; opacity:0.6;
+.letter-card::-webkit-scrollbar-thumb { background: rgba(155,89,182,0.3); border-radius: 2px; }
+
+/* Left Margin line */
+.letter-card::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0; left: clamp(24px, 6vw, 40px);
+  width: 1px;
+  background: rgba(232, 121, 154, 0.25);
+  z-index: 1;
+  pointer-events: none;
 }
 
 .letter-date {
   font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 0.8rem;
+  color: var(--muted); margin-bottom: 1.2rem;
   display: flex; align-items: center; gap: 0.5rem;
+  padding-left: clamp(20px, 5vw, 30px);
+  z-index: 2; position: relative;
 }
-.letter-date::after { content:''; flex:1; height:1px; background: var(--lilac); }
+.letter-date::after { content:''; flex:1; height:1px; background: rgba(232,121,154,0.15); }
 
 .letter-greeting {
-
-  font-size: clamp(1.6rem, 6vw, 2.2rem); color: var(--rose); margin-bottom: 1rem;
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1.6rem, 6vw, 2.2rem); 
+  color: #8a3a60; 
+  margin-bottom: 1rem;
+  padding-left: clamp(20px, 5vw, 30px);
+  z-index: 2; position: relative;
 }
-.letter-body {
 
-  font-size: clamp(1rem, 3.5vw, 1.12rem); line-height: 1.9;
-  color: var(--text); font-weight: 300;
+.letter-body {
+  font-family: 'Caveat', cursive;
+  font-size: clamp(1.2rem, 3.8vw, 1.45rem); 
+  line-height: 32px;
+  color: #3b2837; 
+  font-weight: 500;
+  padding-left: clamp(20px, 5vw, 30px);
+  z-index: 2; position: relative;
 }
 .letter-body p { margin-bottom: 1rem; }
-.letter-body em { color: var(--rose); font-style: italic; }
+.letter-body em { color: #d4517a; font-style: italic; font-weight: 700; }
 
 .letter-sign {
-  font-size: clamp(1.2rem, 4vw, 1.6rem); color: var(--purple);
-  margin-top: 0.8rem; text-align: right;
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1.3rem, 4.5vw, 1.8rem); 
+  color: #8a3a60;
+  margin-top: 1rem; 
+  text-align: right;
+  z-index: 2; position: relative;
 }
 
 .seal {
@@ -292,6 +460,120 @@ html, body {
   font-size: 1.3rem;
   box-shadow: 0 6px 20px var(--glow-pink);
   flex-shrink: 0;
+}
+
+/* 3D Flipping Vintage Polaroid Photo */
+.vintage-photo {
+  perspective: 1000px;
+  width: 220px;
+  height: 270px;
+  margin: 1.8rem auto;
+  z-index: 2;
+  position: relative;
+}
+
+.vintage-photo-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: rotate(-3deg);
+}
+
+.vintage-photo.flipped .vintage-photo-inner {
+  transform: rotateY(180deg) rotate(-3deg);
+}
+
+.vintage-photo-front, .vintage-photo-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: #fbfbf9;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 8px 8px 24px 8px; /* Classic Polaroid bottom margin */
+  box-shadow: 
+    0 1px 3px rgba(0,0,0,0.1),
+    0 8px 20px rgba(74, 32, 64, 0.15);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.vintage-photo-front img, .vintage-photo-back img {
+  width: 100%;
+  height: 195px;
+  object-fit: cover;
+  filter: sepia(0.15) contrast(1.02) brightness(0.98);
+  border-radius: 2px;
+  background-color: #f5f5f5;
+}
+
+.vintage-photo-front img {
+  object-position: top center; /* Childhood baby photo is positioned at the top */
+}
+
+.vintage-photo-back img {
+  object-position: center center; /* Couple photo is centered to show both faces clearly */
+}
+
+.vintage-photo-back {
+  transform: rotateY(180deg);
+}
+
+.vintage-photo-caption {
+  font-family: 'Caveat', cursive;
+  font-size: clamp(1rem, 3.2vw, 1.2rem);
+  color: #6d5b68;
+  text-align: center;
+  margin-top: auto;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* Tape overlay for photo */
+.vintage-photo::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(2deg);
+  width: 65px;
+  height: 18px;
+  background: rgba(234, 218, 194, 0.45);
+  backdrop-filter: blur(1px);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  border-left: 1px dashed rgba(0,0,0,0.1);
+  border-right: 1px dashed rgba(0,0,0,0.1);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Sequential Handwriting reveal animations */
+.letter-body p, .vintage-photo, .letter-sign {
+  opacity: 0;
+  transform: translateY(15px);
+}
+
+.envelope-active .letter-body p {
+  animation: writeIn 1.5s ease forwards;
+}
+
+.envelope-active .letter-body p:nth-child(1) { animation-delay: 0.8s; }
+.envelope-active .letter-body p:nth-child(2) { animation-delay: 1.8s; }
+.envelope-active .letter-body p:nth-child(3) { animation-delay: 2.8s; }
+.envelope-active .vintage-photo { animation: writeIn 1.5s ease forwards 3.8s; }
+.envelope-active .letter-body p:nth-child(5) { animation-delay: 4.8s; }
+.envelope-active .letter-body p:nth-child(6) { animation-delay: 5.8s; }
+.envelope-active .letter-sign { animation: writeIn 1.5s ease forwards 6.8s; }
+
+@keyframes writeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ════════════════════════════════
@@ -376,16 +658,17 @@ html, body {
   position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 3;
 }
 
-.final-ring {
-  width: clamp(70px, 20vw, 100px);
-  height: clamp(70px, 20vw, 100px);
+.final-avatar {
+  width: clamp(90px, 25vw, 130px);
+  height: clamp(90px, 25vw, 130px);
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(232,121,154,0.15), rgba(195,155,211,0.2));
-  border: 2px solid rgba(195,155,211,0.4);
-  display: flex; align-items: center; justify-content: center;
-  font-size: clamp(1.8rem, 6vw, 2.5rem); margin-bottom: 0.8rem;
+  border: 3px solid rgba(195,155,211,0.5);
+  box-shadow: 
+    0 10px 30px rgba(74, 32, 64, 0.25),
+    0 0 20px rgba(232,121,154,0.3);
+  object-fit: cover;
+  margin-bottom: 1.2rem;
   animation: breathe 3s ease infinite;
-  box-shadow: 0 8px 40px var(--glow-pink);
   flex-shrink: 0;
 }
 
@@ -674,6 +957,358 @@ html, body {
 .collage-item .film-img, .collage-item .film-placeholder {
   width: 100%; height: clamp(80px, 22vw, 110px);
 }
+
+/* ── CINEMATIC FILM POSTER STYLE (SLIDE 2) ── */
+.bday-bg-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: url('8.JPG') no-repeat center;
+  background-size: cover;
+  animation: kenBurns 22s ease-in-out infinite alternate;
+  filter: brightness(0.65) contrast(1.05);
+}
+
+@keyframes kenBurns {
+  0% { transform: scale(1) translateY(0); }
+  100% { transform: scale(1.1) translateY(-10px); }
+}
+
+.bday-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(20, 10, 20, 0.4) 0%,
+    rgba(20, 10, 20, 0.1) 40%,
+    rgba(20, 10, 20, 0.75) 100%
+  );
+}
+
+.poster-wrap {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(20px, 6vh, 40px) clamp(16px, 5vw, 24px) clamp(50px, 8vh, 70px);
+  text-align: center;
+  color: #ffffff;
+}
+
+.poster-top {
+  font-size: clamp(0.65rem, 2.2vw, 0.75rem);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  color: #f9d0e3;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 1.2s ease 0.3s;
+}
+
+.poster-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+}
+
+/* Animations active when slide is active */
+.slide.active .poster-top {
+  opacity: 1;
+  transform: translateY(0);
+}
+.slide.active .poster-bottom {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.poster-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 8vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 0.1rem;
+  text-shadow: 0 3px 15px rgba(0, 0, 0, 0.8);
+}
+
+.poster-name {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(3.2rem, 13vw, 4.8rem);
+  color: #e8799a;
+  margin-bottom: 0.6rem;
+  text-shadow: 0 0 20px rgba(232, 121, 154, 0.9);
+}
+
+.poster-sub {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(0.8rem, 2.8vw, 0.95rem);
+  font-weight: 300;
+  line-height: 1.6;
+  max-width: 380px;
+  color: #e8d5f0;
+  margin-bottom: 1.6rem;
+  letter-spacing: 0.05em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+}
+
+.poster-btn-pulse {
+  position: relative;
+}
+.poster-btn-pulse::before {
+  content: '';
+  position: absolute; inset: -4px; border-radius: 50px;
+  background: var(--pink); opacity: 0.3;
+  animation: pulseButton 2s infinite; z-index: -1;
+}
+
+@keyframes pulseButton {
+  0% { transform: scale(1); opacity: 0.4; }
+  100% { transform: scale(1.15); opacity: 0; }
+}
+
+/* ── SCRAPBOOK ALBUM STYLE ── */
+#slide-3 {
+  justify-content: center;
+}
+#slide-4, #slide-5, #slide-6, #slide-7 {
+  justify-content: flex-start;
+}
+#slide-4 .slide-inner, #slide-5 .slide-inner, #slide-6 .slide-inner, #slide-7 .slide-inner {
+  padding-top: 4.8rem;
+  padding-bottom: 3rem;
+}
+.scrapbook-page {
+  background: #efe6d5;
+  background-image: radial-gradient(circle at center, transparent 60%, rgba(74,32,64,0.02) 100%);
+  border-radius: 16px;
+  border: 1px solid #dfd5c2;
+  padding: 2.5rem clamp(1rem, 4vw, 2rem) 2rem clamp(1.5rem, 5vw, 2.5rem);
+  box-shadow: 
+    0 10px 30px rgba(0,0,0,0.06),
+    inset 0 0 40px rgba(139,94,60,0.05);
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.scrapbook-page::before {
+  content: '';
+  position: absolute;
+  top: 15px; bottom: 15px; left: 8px;
+  width: 12px;
+  background-image: linear-gradient(to bottom, #7a6e5a 30%, transparent 30%, transparent 70%, #7a6e5a 70%);
+  background-size: 100% 40px;
+  opacity: 0.25;
+  z-index: 10;
+}
+
+.scrapbook-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 5vw, 2.1rem);
+  color: #4a3a2d;
+  margin-bottom: 0.2rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.scrapbook-subtitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem;
+  color: #8c7b6c;
+  margin-bottom: 2rem;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+.scrapbook-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2.2rem auto;
+  width: 100%;
+  max-width: 230px;
+  position: relative;
+}
+
+.scrapbook-frame {
+  background: #ffffff;
+  padding: 8px 8px 20px 8px;
+  border-radius: 2px;
+  box-shadow: 
+    0 1px 3px rgba(0,0,0,0.08),
+    0 6px 18px rgba(74, 32, 64, 0.1);
+  width: 100%;
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+
+.scrapbook-frame:hover {
+  transform: scale(1.03) rotate(0deg) !important;
+  z-index: 5;
+}
+
+.scrapbook-frame img {
+  width: 100%;
+  height: 155px;
+  object-fit: cover;
+  object-position: top center; /* Preserves faces at the top */
+  border-radius: 2px;
+  background-color: #fafafa;
+}
+
+.scrapbook-frame .frame-caption {
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-top: 6px;
+  font-weight: bold;
+  color: #4a3c31;
+}
+
+/* Washi Tape / Tape effect for frames */
+.tape-effect {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(2deg);
+  width: 60px;
+  height: 18px;
+  background: rgba(234, 218, 194, 0.55);
+  backdrop-filter: blur(0.5px);
+  border-left: 1px dashed rgba(0,0,0,0.15);
+  border-right: 1px dashed rgba(0,0,0,0.15);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Scrapbook direct note description style */
+.scrapbook-note {
+  font-family: 'Caveat', cursive;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  color: #5c4a3c;
+  text-align: center;
+  margin-top: 0.8rem;
+  padding: 0 5px;
+  font-weight: bold;
+  position: relative;
+}
+
+/* Landscape-specific scrapbook items */
+.scrapbook-item.landscape-item {
+  max-width: 320px;
+}
+.scrapbook-frame.landscape-frame img {
+  height: 195px;
+}
+
+/* Polaroid Grid for Gopi's photo dump */
+.polaroid-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  width: 100%;
+  max-width: 480px;
+  margin: 1rem auto;
+}
+.polaroid-grid .scrapbook-item {
+  margin: 0;
+  max-width: 100%;
+  transform: rotate(var(--r, 0deg));
+}
+.polaroid-grid .scrapbook-frame img {
+  height: 125px;
+}
+
+/* Overlapping grid for Vaibhu & Gopi photo dump */
+.overlapping-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px 14px;
+  width: 100%;
+  max-width: 460px;
+  margin: 1.5rem auto;
+  padding: 10px;
+}
+.overlapping-grid .scrapbook-item {
+  margin: 0;
+  max-width: 100%;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), z-index 0.1s;
+}
+.overlapping-grid .scrapbook-item:nth-child(odd) {
+  transform: translateY(-10px) rotate(var(--r, -3deg));
+}
+.overlapping-grid .scrapbook-item:nth-child(even) {
+  transform: translateY(10px) rotate(var(--r, 3deg));
+}
+.overlapping-grid .scrapbook-item:hover {
+  transform: scale(1.08) rotate(0deg) translateY(0) !important;
+  z-index: 10;
+}
+.overlapping-grid .scrapbook-frame img {
+  height: 125px;
+}
+
+/* Photo Zoom Lightbox Modal */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background-color: rgba(15, 8, 16, 0.94);
+  backdrop-filter: blur(8px);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  cursor: pointer;
+}
+
+.lightbox.show {
+  display: flex;
+  opacity: 1;
+}
+
+.lightbox-content {
+  max-width: 90%;
+  max-height: 70vh;
+  border-radius: 4px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  transform: scale(0.9);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+}
+
+.lightbox.show .lightbox-content {
+  transform: scale(1);
+}
+
+.lightbox-caption {
+  font-family: 'Caveat', cursive;
+  font-size: 1.5rem;
+  color: #fff;
+  margin-top: 15px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: bold;
+  cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -755,18 +1390,21 @@ html, body {
 
 <!-- ════ SLIDE 2 — BIRTHDAY ════ -->
 <div class="slide" id="slide-2">
-  <div class="slide-inner">
-    <div class="bday-wrap">
-      <div class="photo-ring">
-        <div class="photo-inner">
-          <img src="1-1.jpg" style="width:100%; height:100%; object-fit:cover;" alt="Gopi">
-        </div>
+  <div class="bday-bg-photo"></div>
+  <div class="bday-overlay"></div>
+  <div class="poster-wrap">
+    <div class="poster-top">✦ VAIBHU PRESENTS ✦</div>
+    
+    <!-- Empty center leaves the photo completely unobstructed -->
+    <div style="flex: 1;"></div>
+    
+    <div class="poster-bottom">
+      <h1 class="poster-title">Happy Birthday, Mara Dikaa</h1>
+      <h2 class="poster-name">Gopi <i data-lucide="heart" style="color:var(--pink); font-size:0.6em; vertical-align: middle;"></i></h2>
+      <p class="poster-sub">You are the poetry written in my stars. The light of my life, the beat of my heart.</p>
+      <div class="poster-btn-pulse">
+        <button class="btn" onclick="go(2)">Step Inside <i data-lucide="sparkles"></i></button>
       </div>
-      <p class="bday-label">Today is extra special ✦</p>
-      <h1 class="bday-main">Happy Birthday</h1>
-      <h2 class="bday-name">Gopi <i data-lucide="flower-2" style="color:var(--pink); font-size:0.8em;"></i></h2>
-      <p class="bday-sub">My heart &nbsp;✦&nbsp; My home &nbsp;✦&nbsp; My everything</p>
-      <button class="btn" onclick="go(2)">Open your surprise <i data-lucide="arrow-right"></i></button>
     </div>
   </div>
 </div>
@@ -775,76 +1413,304 @@ html, body {
 <div class="slide scrollable" id="slide-3">
   <div class="slide-inner">
     <div class="letter-outer">
-      <div class="letter-card">
-        <p class="letter-date">21st June &nbsp;✦&nbsp; Always yours</p>
-        <p class="letter-greeting">My dearest Gopi,</p>
-        <div class="letter-body">
-          <p>Jab se tumse mila hoon, zindagi ek naya rang le gayi hai — aur tum ho us rang ki sabse sundar chhata.</p>
-          <p>Tumhari hansi meri favourite dhun hai. Tumhari aankhon mein duniya ki sabse gehri kahani hai. Aur tumhara saath — woh toh meri zindagi ki sabse <em>khoobsurat feeling</em> hai.</p>
-          <p>Aaj is khaas din par, main bas yahi kehna chahta hoon — tum mere liye sab kuch ho. Har subah tumhari wajah se behtar lagti hai, aur har raat tumhare khayalon ke saath kuch magical ban jaati hai.</p>
-          <p>Tumhara birthday sirf ek din nahi — yeh woh din hai jab duniya ko tumhara tohfa mila. Aur mujhe milne ka <em>sabse bada tohfa</em> — tumhara pyaar.</p>
-          <p>Tum hamesha chamkti raho, hamesha muskurao, aur hamesha jaano ki mere dil mein sirf <em>tumhara</em> ghar hai. 💜</p>
+      
+      <!-- Envelope Wrapper containing Envelope + Letter Card -->
+      <div class="envelope-wrapper">
+        
+        <!-- The Envelope itself -->
+        <div class="envelope" onclick="openEnvelope(this)">
+          <div class="envelope-flap"></div>
+          <div class="envelope-pocket"></div>
+          <div class="wax-seal"></div>
         </div>
-        <p class="letter-sign">Tumhara, hamesha 💜<br><em style="font-size:1.2rem">— Vaibhu</em></p>
-      </div>
+        
+        <!-- The Ruled Handwriting Letter (glides up when envelope opens) -->
+        <div class="letter-card">
+          <p class="letter-date">21st June &nbsp;✦&nbsp; Always yours</p>
+          <p class="letter-greeting">My dearest Gopi,</p>
+          <div class="letter-body">
+            <p>Jab se tumse mila hoon, zindagi ek naya rang le gayi hai — aur tum ho us rang ki sabse sundar chhata.</p>
+            <p>Tumhari hansi meri favourite dhun hai. Tumhari aankhon mein duniya ki sabse gehri kahani hai. Aur tumhara saath — woh toh meri zindagi ki sabse <em>khoobsurat feeling</em> hai.</p>
+            <p>Aaj is khaas din par, main bas yahi kehna chahta hoon — tum mere liye sab kuch ho. Har subah tumhari wajah se behtar lagti hai, aur har raat tumhare khayalon ke saath kuch magical ban jaati hai.</p>
+            
+            <!-- Vintage taped old photo memory that flips -->
+            <div class="vintage-photo" onclick="this.classList.toggle('flipped'); event.stopPropagation();">
+              <div class="vintage-photo-inner">
+                <!-- Front: Then (Baby Photo) -->
+                <div class="vintage-photo-front">
+                  <img src="3331.jpg" alt="Then">
+                  <div class="vintage-photo-caption">Then… 👶 (Tap to flip)</div>
+                </div>
+                <!-- Back: Now (Current Photo) -->
+                <div class="vintage-photo-back">
+                  <img src="1.JPG" alt="Now">
+                  <div class="vintage-photo-caption">Now… 💖 (Tap to flip)</div>
+                </div>
+              </div>
+            </div>
+            
+            <p>Tumhara birthday sirf ek din nahi — yeh woh din hai jab duniya ko tumhara tohfa mila. Aur mujhe milne ka <em>sabse bada tohfa</em> — tumhara pyaar.</p>
+            <p>Tum hamesha chamkti raho, hamesha muskurao, aur hamesha jaano ki mere dil mein sirf <em>tumhara</em> ghar hai. 💜</p>
+          </div>
+          <p class="letter-sign">Tumhara, hamesha 💜<br><em style="font-size:1.2rem">— Vaibhu</em></p>
+        </div>
+        
+      </div> <!-- End Envelope Wrapper -->
+
       <div class="seal"><i data-lucide="heart"></i></div>
       <button class="btn" onclick="go(3)">Our Photo Dump <i data-lucide="camera"></i></button>
     </div>
   </div>
 </div>
 
-<!-- ════ SLIDE 4 — PHOTO DUMP ════ -->
+<!-- ════ SLIDE 4 — FAMILY SCRAPBOOK ════ -->
 <div class="slide scrollable" id="slide-4">
   <div class="slide-inner">
-    <div class="collage-wrap">
-      <div class="era-badge">✦ Our Moments ✦</div>
-      <h2 class="mem-title">Photo Dump</h2>
-      <p class="mem-sub">Every picture tells a story of us</p>
-      <div class="collage-grid">
-        <div class="collage-item" style="--rot: -4deg; --x: -10px;">
-          <div class="film-frame">
-            <img src="1.JPG" class="film-img" alt="Sweetness">
-            <div class="film-caption">Sweetness</div>
-          </div>
+    <div class="scrapbook-page">
+      <div class="scrapbook-title">First Chapter: Roots & Blessings</div>
+      <div class="scrapbook-subtitle">The beautiful souls who shaped your story ✦</div>
+      
+      <!-- Grandma Item -->
+      <div class="scrapbook-item" style="transform: rotate(-3deg);">
+        <div class="tape-effect"></div>
+        <div class="scrapbook-frame" onclick="zoomPhoto(this)">
+          <img src="11375.jpg" alt="Grandmother">
+          <div class="frame-caption">Dadi ✦</div>
         </div>
-        <div class="collage-item" style="--rot: 3deg; --x: 15px;">
-          <div class="film-frame">
-            <img src="2.jpg" class="film-img" alt="Laughter">
-            <div class="film-caption">Laughter</div>
-          </div>
-        </div>
-        <div class="collage-item" style="--rot: -2deg; --x: 5px;">
-          <div class="film-frame">
-            <img src="3.JPG" class="film-img" alt="Forever">
-            <div class="film-caption">Forever</div>
-          </div>
-        </div>
-        <div class="collage-item" style="--rot: 5deg; --x: -5px;">
-          <div class="film-frame">
-            <img src="4.JPG" class="film-img" alt="Magic">
-            <div class="film-caption">Magic</div>
-          </div>
+        <div class="scrapbook-note">
+          "Hamesha khush raho, beta. Meri dher saari duayein aur pyaar tumhare saath hain..." <i data-lucide="sparkles" style="color: #ffd700; fill: #ffd700; width: 1.1em; height: 1.1em; display: inline-block; vertical-align: middle;"></i><i data-lucide="heart" style="color: #e8799a; fill: #e8799a; width: 1.1em; height: 1.1em; display: inline-block; vertical-align: middle; margin-left: 3px;"></i>
         </div>
       </div>
-      <button class="btn" onclick="go(4)">Our Memories <i data-lucide="arrow-right"></i></button>
+      
+      <!-- Parents Item -->
+      <div class="scrapbook-item" style="transform: rotate(2deg);">
+        <div class="tape-effect" style="transform: translateX(-50%) rotate(-4deg); background: rgba(195,176,156,0.5);"></div>
+        <div class="scrapbook-frame" onclick="zoomPhoto(this)">
+          <img src="IMG_2689.JPG" alt="Father and Mother">
+          <div class="frame-caption">Mummy & Papa ✦</div>
+        </div>
+        <div class="scrapbook-note">
+          "Pillar of our hearts, our pride, and our greatest happiness. God bless you always..." <i data-lucide="heart" style="color: #e8799a; fill: #e8799a; width: 1.1em; height: 1.1em; display: inline-block; vertical-align: middle; margin-left: 3px;"></i>
+        </div>
+      </div>
+      
+      <!-- Brother Item -->
+      <div class="scrapbook-item" style="transform: rotate(-2deg);">
+        <div class="tape-effect" style="transform: translateX(-50%) rotate(3deg); background: rgba(226,143,131,0.4);"></div>
+        <div class="scrapbook-frame" onclick="zoomPhoto(this)">
+          <img src="IMG_2688.JPG" alt="Brother">
+          <div class="frame-caption">Bhai ✦</div>
+        </div>
+        <div class="scrapbook-note">
+          "Childhood fights, sibling laughter, and a friendship that is forever. Happy Birthday, Di!" <i data-lucide="star" style="color: #ffd700; fill: #ffd700; width: 1.1em; height: 1.1em; display: inline-block; vertical-align: middle;"></i><i data-lucide="heart" style="color: #e8799a; fill: #e8799a; width: 1.1em; height: 1.1em; display: inline-block; vertical-align: middle; margin-left: 3px;"></i>
+        </div>
+      </div>
+      
+      <div style="display: flex; justify-content: center; width: 100%;">
+        <button class="btn" style="margin-top:2.2rem;" onclick="go(4)">A Special Bond <i data-lucide="heart"></i></button>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Memory slides built by JS -->
-<div id="mem-container"></div>
+<!-- ════ SLIDE 5 — MUMMY, GOPI, & ME ════ -->
+<div class="slide scrollable" id="slide-5">
+  <div class="slide-inner">
+    <div class="scrapbook-page">
+      <div class="scrapbook-title">A Beautiful Bond</div>
+      <div class="scrapbook-subtitle">Mummy, You & Me ✦</div>
+      
+      <!-- Landscape Item -->
+      <div class="scrapbook-item landscape-item" style="transform: rotate(1deg);">
+        <div class="tape-effect" style="width: 80px; height: 18px; transform: translateX(-50%) rotate(-1deg); background: rgba(195,176,156,0.6);"></div>
+        <div class="scrapbook-frame landscape-frame" onclick="zoomPhoto(this)">
+          <img src="IMG_4242.JPG" alt="Mummy, Gopi, and Me">
+          <div class="frame-caption">Togetherness ✦</div>
+        </div>
+        <div class="scrapbook-note">
+          "The warmth of Mummy's blessing, the beauty of your smile, and the joy of being together. A moment of pure love that binds us forever..." <i data-lucide="sparkles" style="color: #ffd700; fill: #ffd700; width: 1.1em; height: 1.1em; display: inline-block; vertical-align: middle;"></i><i data-lucide="heart" style="color: #e8799a; fill: #e8799a; width: 1.1em; height: 1.1em; display: inline-block; vertical-align: middle; margin-left: 3px;"></i>
+        </div>
+      </div>
+      
+      <div style="display: flex; justify-content: center; width: 100%;">
+        <button class="btn" style="margin-top:2.2rem;" onclick="go(5)">Your Smiles <i data-lucide="sparkles"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 6 — GOPI'S PHOTO DUMP ════ -->
+<div class="slide scrollable" id="slide-6">
+  <div class="slide-inner">
+    <div class="scrapbook-page">
+      <div class="scrapbook-title">Endless Grace</div>
+      <div class="scrapbook-subtitle">My favorite views of you ✦</div>
+      
+      <!-- Polaroid Grid -->
+      <div class="polaroid-grid">
+        <!-- Photo 1 -->
+        <div class="scrapbook-item" style="--r: -3deg;">
+          <div class="tape-effect" style="width: 50px; height: 15px; transform: translateX(-50%) rotate(-2deg); background: rgba(195,176,156,0.5);"></div>
+          <div class="scrapbook-frame" onclick="zoomPhoto(this)">
+            <img src="IMG_3553.jpg" alt="Gopi Photo 1">
+            <div class="frame-caption">Lovely ✦</div>
+          </div>
+        </div>
+        
+        <!-- Photo 2 -->
+        <div class="scrapbook-item" style="--r: 2deg;">
+          <div class="tape-effect" style="width: 50px; height: 15px; transform: translateX(-50%) rotate(3deg); background: rgba(226,143,131,0.4);"></div>
+          <div class="scrapbook-frame" onclick="zoomPhoto(this)">
+            <img src="2.jpg" alt="Gopi Photo 2">
+            <div class="frame-caption">Sunshine ✦</div>
+          </div>
+        </div>
+        
+        <!-- Photo 3 -->
+        <div class="scrapbook-item" style="--r: -2deg;">
+          <div class="tape-effect" style="width: 50px; height: 15px; transform: translateX(-50%) rotate(-3deg); background: rgba(155,89,182,0.15);"></div>
+          <div class="scrapbook-frame" onclick="zoomPhoto(this)">
+            <img src="9.JPG" alt="Gopi Photo 3">
+            <div class="frame-caption">Adorable ✦</div>
+          </div>
+        </div>
+        
+        <!-- Photo 4 -->
+        <div class="scrapbook-item" style="--r: 3deg;">
+          <div class="tape-effect" style="width: 50px; height: 15px; transform: translateX(-50%) rotate(2deg); background: rgba(195,176,156,0.5);"></div>
+          <div class="scrapbook-frame" onclick="zoomPhoto(this)">
+            <img src="7696.jpg" alt="Gopi Photo 4">
+            <div class="frame-caption">Cute ✦</div>
+          </div>
+        </div>
+        
+        <!-- Photo 5 -->
+        <div class="scrapbook-item" style="grid-column: span 2; max-width: 170px; margin: 0 auto; --r: -1deg;">
+          <div class="tape-effect" style="width: 50px; height: 15px; transform: translateX(-50%) rotate(-1deg); background: rgba(226,143,131,0.4);"></div>
+          <div class="scrapbook-frame" onclick="zoomPhoto(this)">
+            <img src="IMG_1946.jpg" alt="Gopi Photo 5">
+            <div class="frame-caption">Elegant ✦</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Love Text description -->
+      <div class="scrapbook-note" style="margin-top: 1.5rem; text-align: center; font-size: 1.25rem; line-height: 1.5;">
+        "Every single picture of you is my absolute favourite. In your laugh, I find my happiness; in your eyes, I see my home. You are the most beautiful chapter of my life..." <i data-lucide="heart" style="color: #e8799a; fill: #e8799a; width: 1.1em; height: 1.1em; display: inline-block; vertical-align: middle; margin-left: 2px;"></i>
+      </div>
+      
+      <div style="display: flex; justify-content: center; width: 100%;">
+        <button class="btn" style="margin-top:2.2rem;" onclick="go(6)">Our Magic <i data-lucide="sparkles"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SLIDE 7 — VAIBHU & GOPI PHOTO DUMP ════ -->
+<div class="slide scrollable" id="slide-7">
+  <div class="slide-inner">
+    <div class="scrapbook-page">
+      <div class="scrapbook-title">You & Me</div>
+      <div class="scrapbook-subtitle">Every moment is a beautiful memory ✦</div>
+      
+      <!-- Polaroid Grid -->
+      <div class="overlapping-grid">
+        <!-- Photo 1 -->
+        <div class="scrapbook-item" style="--r: -2deg;">
+          <div class="tape-effect" style="width: 50px; height: 15px; transform: translateX(-50%) rotate(-2deg); background: rgba(195,176,156,0.55);"></div>
+          <div class="scrapbook-frame" onclick="zoomPhoto(this)">
+            <img src="IMG_3253.jpg" alt="Memory 1">
+            <div class="frame-caption">Lovely ✦</div>
+          </div>
+        </div>
+        
+        <!-- Photo 2 -->
+        <div class="scrapbook-item" style="--r: 3deg;">
+          <div class="tape-effect" style="width: 50px; height: 15px; transform: translateX(-50%) rotate(3deg); background: rgba(226,143,131,0.45);"></div>
+          <div class="scrapbook-frame" onclick="zoomPhoto(this)">
+            <img src="IMG_3261.jpg" alt="Memory 2">
+            <div class="frame-caption">Happiness ✦</div>
+          </div>
+        </div>
+        
+        <!-- Photo 3 -->
+        <div class="scrapbook-item" style="--r: -3deg;">
+          <div class="tape-effect" style="width: 50px; height: 15px; transform: translateX(-50%) rotate(-3deg); background: rgba(155,89,182,0.18);"></div>
+          <div class="scrapbook-frame" onclick="zoomPhoto(this)">
+            <img src="IMG_4055.jpg" alt="Memory 3">
+            <div class="frame-caption">Dreamy ✦</div>
+          </div>
+        </div>
+        
+        <!-- Photo 4 -->
+        <div class="scrapbook-item" style="--r: 2deg;">
+          <div class="tape-effect" style="width: 50px; height: 15px; transform: translateX(-50%) rotate(2deg); background: rgba(195,176,156,0.55);"></div>
+          <div class="scrapbook-frame" onclick="zoomPhoto(this)">
+            <img src="IMG_4321.jpg" alt="Memory 4">
+            <div class="frame-caption">Blessing ✦</div>
+          </div>
+        </div>
+        
+        <!-- Photo 5 -->
+        <div class="scrapbook-item" style="--r: -2deg;">
+          <div class="tape-effect" style="width: 50px; height: 15px; transform: translateX(-50%) rotate(-2deg); background: rgba(226,143,131,0.45);"></div>
+          <div class="scrapbook-frame" onclick="zoomPhoto(this)">
+            <img src="IMG_4655.jpg" alt="Memory 5">
+            <div class="frame-caption">Sweetheart ✦</div>
+          </div>
+        </div>
+        
+        <!-- Photo 6 -->
+        <div class="scrapbook-item" style="--r: 3deg;">
+          <div class="tape-effect" style="width: 50px; height: 15px; transform: translateX(-50%) rotate(3deg); background: rgba(155,89,182,0.18);"></div>
+          <div class="scrapbook-frame" onclick="zoomPhoto(this)">
+            <img src="5.JPG" alt="Memory 6">
+            <div class="frame-caption">Gorgeous ✦</div>
+          </div>
+        </div>
+        
+        <!-- Photo 7 -->
+        <div class="scrapbook-item" style="--r: -1deg;">
+          <div class="tape-effect" style="width: 50px; height: 15px; transform: translateX(-50%) rotate(-1deg); background: rgba(195,176,156,0.55);"></div>
+          <div class="scrapbook-frame" onclick="zoomPhoto(this)">
+            <img src="IMG_1746.JPG" alt="Memory 7">
+            <div class="frame-caption">Angelic ✦</div>
+          </div>
+        </div>
+        
+        <!-- Photo 8 -->
+        <div class="scrapbook-item" style="--r: 2deg;">
+          <div class="tape-effect" style="width: 50px; height: 15px; transform: translateX(-50%) rotate(2deg); background: rgba(226,143,131,0.45);"></div>
+          <div class="scrapbook-frame" onclick="zoomPhoto(this)">
+            <img src="IMG_3255.jpg" alt="Memory 8">
+            <div class="frame-caption">Forever ✦</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Love Text description -->
+      <div class="scrapbook-note" style="margin-top: 1.5rem; text-align: center; font-size: 1.25rem; line-height: 1.5;">
+        "Every second spent with you is a second I treasure. Through laughter, quiet times, and beautiful adventures, you are my favorite companion. I love you, Gopi! 💜"
+      </div>
+      
+      <div style="display: flex; justify-content: center; width: 100%;">
+        <button class="btn" style="margin-top:2.2rem;" onclick="go(7)">One last surprise <i data-lucide="sparkles"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ════ FINAL SLIDE ════ -->
 <div class="slide" id="slide-final">
   <div class="slide-inner">
     <div class="final-wrap">
-      <div class="final-ring"><i data-lucide="heart"></i></div>
+      <img src="5.JPG" class="final-avatar" alt="Together">
       <p class="final-top">Always &amp; Forever</p>
-      <h1 class="final-title">Forever Yours</h1>
-      <h2 class="final-name">My Gopi <i data-lucide="flower" style="color:var(--pink); font-size:0.8em;"></i></h2>
+      <h1 class="final-title">Happy Birthday</h1>
+      <h2 class="final-name">My Beautiful Gopi <i data-lucide="heart" style="color:var(--pink); fill:var(--pink); font-size:0.8em; display: inline-block; vertical-align: middle;"></i></h2>
       <p class="final-msg">
-        You are my favourite thought every morning,<br>
-        and my most beautiful dream every night.
+        "You make my world infinitely brighter just by being in it.<br>
+        Today, tomorrow, and for all the years to come — I am forever yours."
       </p>
       <p class="final-from">With all my love — Vaibhu 💜</p>
       <div class="btn-row">
@@ -856,63 +1722,33 @@ html, body {
 
 <div id="yt-container" style="position:fixed;bottom:-300px;left:-300px;width:1px;height:1px;overflow:hidden;pointer-events:none;"></div>
 
+<!-- Photo Zoom Lightbox Modal -->
+<div id="photo-lightbox" class="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close">&times;</span>
+  <img class="lightbox-content" id="lightbox-img">
+  <div id="lightbox-caption" class="lightbox-caption"></div>
+</div>
+
 <script>
 const PASSWORD = "2106";
 const MASTER_PASSWORD = "9411";
 
 const songs = [
-  { id:"JhS-eFKG0oA", title:"Tum Hi Ho" },
-  { id:"N0P1vlZIFO8", title:"Tera Ban Jaunga" },
-  { id:"8TZjL3qfpDY", title:"Raabta" },
-  { id:"Umqb9KENgmk", title:"Ae Dil Hai Mushkil" },
-  { id:"FMbOXI13HGg", title:"Ik Vaari Aa" },
-  { id:"n5FZQK5wr8Y", title:"Main Phir Bhi Tumko Chahunga" },
-  { id:"jgqUrVZCCsY", title:"Tujhe Kitna Chahne Lage" },
-  { id:"bsUcNfQ1LiQ", title:"Galliyan" },
-  { id:"zXiMFuFkOe8", title:"Khairiyat" },
-  { id:"JhS-eFKG0oA", title:"Tum Hi Ho — Reprise" }
-];
-
-const memories = [
-  { era:"The Beginning",    title:"When it all started…",          sub:"The day everything changed",              label:"Chapter 1", photo:"4.JPG" },
-  { era:"Getting Closer",   title:"Every laugh, every glance",     sub:"Learning your favourite everything",      label:"Chapter 2", photo:"5.JPG" },
-  { era:"Adventures",       title:"Wherever we went — it was home",sub:"Because you are home",                   label:"Chapter 3", photo:"6.jpg" },
-  { era:"Little Things",    title:"Late nights & quiet mornings",  sub:"The small moments that mean everything",  label:"Chapter 4", photo:"7.jpg" },
-  { era:"Growing Stronger", title:"Through every season, together",sub:"Every chapter made us more",             label:"Chapter 5", photo:"8.JPG" },
-  { era:"Right Now",        title:"And here we are… still us",     sub:"Still my favourite story",               label:"Chapter 6", photo:"9.JPG" },
+  { id:"JhS-eFKG0oA", title:"Tum Hi Ho", start: 62 },
+  { id:"N0P1vlZIFO8", title:"Tera Ban Jaunga", start: 48 },
+  { id:"8TZjL3qfpDY", title:"Raabta", start: 75 },
+  { id:"Umqb9KENgmk", title:"Ae Dil Hai Mushkil", start: 38 },
+  { id:"T94PHkuydC4", title:"Kabira", start: 55 },
+  { id:"kY4eHsB5a9I", title:"Tujh Mein Rab Dikhta Hai", start: 72 },
+  { id:"AXD6mFswpCI", title:"Kesariya", start: 65 },
+  { id:"hM-kZ-1_b_U", title:"Darkhaast", start: 58 },
+  { id:"N4tRYp7bF84", title:"Janam Janam", start: 50 }
 ];
 
 let pin="", currentSlide=0, totalSlides=0, ytPlayer=null, ytReady=false;
 
-/* ── BUILD MEMORY SLIDES ── */
-function buildMemories() {
-  const c = document.getElementById("mem-container");
-  memories.forEach((m, i) => {
-    const sn = 4 + i + 1;
-    const isLast = i === memories.length - 1;
-    const d = document.createElement("div");
-    d.className = "slide scrollable"; d.id = `slide-${sn}`;
-    const img = m.photo
-      ? `<img src="${m.photo}" class="film-img" alt="${m.title}">`
-      : `<div class="film-placeholder"><i data-lucide="camera" class="ico"></i><div class="hint2">Photo ${i+1}</div></div>`;
-    d.innerHTML = `
-      <div class="slide-inner">
-        <div class="memory-wrap">
-          <div class="era-badge">✦ ${m.era} ✦</div>
-          <h2 class="mem-title">${m.title}</h2>
-          <p class="mem-sub">${m.sub}</p>
-          <div class="film-frame">${img}<div class="film-caption">${m.label}</div></div>
-          <button class="btn" onclick="go(${sn})">${isLast ? 'One last surprise <i data-lucide="sparkles"></i>' : 'Next memory <i data-lucide="arrow-right"></i>'}</button>
-        </div>
-      </div>`;
-    c.appendChild(d);
-  });
-  if (typeof lucide !== 'undefined') lucide.createIcons();
-}
-
 /* ── INIT ── */
 function init() {
-  buildMemories();
   const all = document.querySelectorAll(".slide");
   totalSlides = all.length;
   const ind = document.getElementById("slide-indicator");
@@ -989,6 +1825,7 @@ function go(fromSlide) {
   const active = document.querySelector(".slide.active");
   if (active) active.scrollTop = 0;
   burstHearts();
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 function goToSlide(idx) {
@@ -1003,12 +1840,56 @@ function goToSlide(idx) {
   }
   updateUI(); 
   playMusic(currentSlide);
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function openEnvelope(el) {
+  if (el.classList.contains('open')) return;
+  el.classList.add('open');
+  document.getElementById('slide-3').classList.add('envelope-active');
+  burstHearts();
+  playMusic(3);
+}
+
+/* ── LIGHTBOX LOGIC ── */
+
+function zoomPhoto(frameEl) {
+  const img = frameEl.querySelector('img');
+  const caption = frameEl.querySelector('.frame-caption');
+  if (!img) return;
+  
+  const lightbox = document.getElementById('photo-lightbox');
+  const lbImg = document.getElementById('lightbox-img');
+  const lbCap = document.getElementById('lightbox-caption');
+  
+  lbImg.src = img.src;
+  lbCap.textContent = caption ? caption.textContent.replace(' ✦', '') : '';
+  
+  lightbox.style.display = 'flex';
+  setTimeout(() => lightbox.classList.add('show'), 10);
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById('photo-lightbox');
+  if (!lightbox) return;
+  lightbox.classList.remove('show');
+  setTimeout(() => lightbox.style.display = 'none', 400);
 }
 
 function replayAll() {
   if (ytPlayer) ytPlayer.stopVideo();
   pin = ""; updatePinDisplay();
   document.getElementById("float-petals").innerHTML = "";
+  
+  // Reset Envelope & Photos
+  const env = document.querySelector(".envelope");
+  if (env) env.classList.remove("open");
+  const slide3 = document.getElementById("slide-3");
+  if (slide3) slide3.classList.remove("envelope-active");
+  const vPhoto = document.querySelector(".vintage-photo");
+  if (vPhoto) vPhoto.classList.remove("flipped");
+
+
   goToSlide(0);
   document.getElementById("replay-btn").style.display = "none";
 }
@@ -1079,15 +1960,19 @@ function playMusic(idx) {
   setTimeout(() => toast.classList.remove("show"), 3500);
   const tryPlay = () => {
     if (!ytReady) { setTimeout(tryPlay, 400); return; }
+    const startSec = song.start || 0;
     if (ytPlayer) {
-      ytPlayer.loadVideoById({ videoId: song.id });
+      ytPlayer.loadVideoById({ 
+        videoId: song.id,
+        startSeconds: startSec
+      });
     } else {
       const div = document.createElement("div"); div.id = "yt";
       document.getElementById("yt-container").appendChild(div);
       ytPlayer = new YT.Player("yt", {
         height:"1", width:"1", videoId: song.id,
-        playerVars: { autoplay:1, controls:0, modestbranding:1, playsinline:1 },
-        events: { onReady: e => { e.target.setVolume(60); e.target.playVideo(); } }
+        playerVars: { autoplay:1, controls:0, modestbranding:1, playsinline:1, start: startSec },
+        events: { onReady: e => { e.target.setVolume(60); e.target.seekTo(startSec); e.target.playVideo(); } }
       });
     }
   };
